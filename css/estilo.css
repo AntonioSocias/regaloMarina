@@ -1,0 +1,24 @@
+/* Estilos para el botón de música */
+#playButton {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #playButton:hover {
+    background-color: #555;
+  }
+  
+  /* Pantalla de carga */
+  #loadingScreen {
+    font-family: Arial, sans-serif;
+    font-size: 2em;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.85); /* Transparencia */
+  }
+  

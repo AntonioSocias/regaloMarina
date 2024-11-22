@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Regalo Marina</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <link rel="stylesheet" href="css/estilo.css">
+  <style>
+    /* Estilos para la pantalla de carga */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <!-- Pantalla de carga -->
+  
+
+  <!-- Música de fondo -->
+  
+
+  <a-scene id="aframeScene" renderer="antialias: false; lowPixel: true">
+    <a-sky src="tus_imagenes/starry_night_alterada.jpg"></a-sky>
+
+    <!-- Coloca la cámara en el centro de la esfera apuntando hacia adelante -->
+    <a-camera position="0 1.5 0" rotation="0 0 0" look-controls="enabled: true"></a-camera>
+
+    <script>
+      const numLayers = 3;
+      const imagesPerLayer = [8, 7, 8];
+      const radius = 4.5;
+      const center = { x: 0, y: 1.5, z: 0 };
+
+      for (let layer = 0; layer < numLayers; layer++) {
+        const layerHeight = center.y + (layer - 1) * 4;
+
+        for (let i = 0; i < imagesPerLayer[layer]; i++) {
+          const angle = (i / imagesPerLayer[layer]) * 2 * Math.PI;
+          const x = radius * Math.cos(angle);
+          const z = radius * Math.sin(angle);
+          const y = layerHeight;
+
+                  if (layer === 1 && i === Math.floor(imagesPerLayer[1] / 2)) {
+            const messageImageEl = document.createElement('a-image');
+            messageImageEl.setAttribute('src', 'tus_imagenes/mensaje_cumpleanos.jpeg');
+            messageImageEl.setAttribute('position', `${x} ${y} ${z}`);
+            messageImageEl.setAttribute('width', '5');   // Tamaño ideal en el entorno
+            messageImageEl.setAttribute('height', '3');
+
+            // Orientación hacia el centro de la esfera
+            const rotationY = -((angle * 180) / Math.PI + 90);
+            messageImageEl.setAttribute('rotation', `0 ${rotationY} 0`);
+
+            document.querySelector('a-scene').appendChild(messageImageEl);
+        }else {
+            const imageEl = document.createElement('a-image');
+            imageEl.setAttribute('src', `tus_imagenes/fotosMarina/imagen${layer * 7 + i + 1}.jpeg`);
+            imageEl.setAttribute('position', `${x} ${y} ${z}`);
+            imageEl.setAttribute('width', '2.5');
+            imageEl.setAttribute('height', '2.5');
+
+            const rotationY = -((angle * 180) / Math.PI + 90);
+            const rotationX = layer === 1 ? 0 : (layer === 0 ? -20 : 20);
+            imageEl.setAttribute('rotation', `${rotationX} ${rotationY} 0`);
+
+            document.querySelector('a-scene').appendChild(imageEl);
+          }
+        }
+      }
+
+      // Oculta la pantalla de carga una vez que toda la escena esté lista
+      document.querySelector('a-scene').addEventListener('loaded', () => {
+        document.getElementById('loadingScreen').style.display = 'none';
+      });
+    </script>
+  </a-scene>
+
+  <script>
+    function playMusic() {
+      const audio = document.getElementById('backgroundMusic');
+      audio.play().catch(error => {
+        console.log('Error en la reproducción:', error);
+      });
+      document.getElementById('playButton').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
